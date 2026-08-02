@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cool, slightly blue-tinted neutrals (Tailwind "slate" ramp) rather than
+       pure gray — reads as a chosen palette, and ties the whole UI back to
+       the primary accent hue. */
+    --color-bg: 255 255 255;
+    --color-surface: 248 250 252;
+    --color-surface-raised: 255 255 255;
+    --color-text: 15 23 42;
+    --color-border: 226 232 240;
+    --color-ring: 59 130 246;
+
+    /* Data-viz palette: validated categorical order (never reorder by value) */
+    --chart-blue: 42 120 214;
+    --chart-orange: 235 104 52;
+    --chart-aqua: 27 175 122;
+    --chart-violet: 124 79 232;
+    --chart-yellow: 237 161 0;
+    --chart-magenta: 232 123 164;
+    --chart-red: 227 73 72;
+
+    /* Fixed status palette (never themed as "series") */
+    --status-good: 12 163 12;
+    --status-warning: 250 178 25;
+    --status-serious: 236 131 90;
+    --status-critical: 208 59 59;
+
+    /* Chart chrome */
+    --chart-grid: 225 224 217;
+    --chart-muted: 137 135 129;
+  }
+
+  .dark {
+    --color-bg: 10 14 24;
+    --color-surface: 17 24 39;
+    --color-surface-raised: 24 33 51;
+    --color-text: 241 245 249;
+    --color-border: 39 50 69;
+    --color-ring: 96 165 250;
+
+    --chart-blue: 57 135 229;
+    --chart-orange: 217 89 38;
+    --chart-aqua: 25 158 112;
+    --chart-violet: 151 115 245;
+    --chart-yellow: 201 133 0;
+    --chart-magenta: 213 81 129;
+    --chart-red: 230 103 103;
+
+    --status-good: 12 163 12;
+    --status-warning: 250 178 25;
+    --status-serious: 236 131 90;
+    --status-critical: 208 59 59;
+
+    --chart-grid: 44 44 42;
+    --chart-muted: 137 135 129;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-200;
+    margin: 0;
+    min-height: 100vh;
+    font-feature-settings: 'cv11', 'ss01', 'tnum' 0;
+    text-rendering: optimizeLegibility;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight;
+    text-wrap: balance;
+  }
+
+  /* A visible, consistent focus ring everywhere — including plain elements
+     that don't carry their own focus: utility classes. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-ring));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: rgb(var(--color-ring) / 0.25);
+  }
+
+  /* Thin, theme-aware scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-border)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--color-border));
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--color-text) / 0.25);
+  }
+}
+
+@layer utilities {
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(var(--color-border) / 0.6);
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.4), transparent);
+    animation: shimmer 1.6s infinite;
+  }
+
+  .dark .skeleton::after {
+    background-image: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.08), transparent);
+  }
+
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+      animation: none;
+    }
+  }
+
+  /* Glassmorphism — used sparingly: command palette, sticky headers, the
+     sidebar's floating panels. Never the base page background. */
+  .glass {
+    background-color: rgb(var(--color-surface) / 0.72);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+  }
+
+  .glass-strong {
+    background-color: rgb(var(--color-surface-raised) / 0.85);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  /* TipTap placeholder — shown on the empty paragraph via a pseudo-element,
+     since a genuinely empty contenteditable can't take a native placeholder. */
+  .is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+    color: rgb(var(--color-text) / 0.4);
+  }
+}

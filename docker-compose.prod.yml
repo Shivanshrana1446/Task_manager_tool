@@ -1,0 +1,65 @@
+# Production stack: built, immutable images — no bind mounts, no dev
+# tooling. The frontend is a static bundle served by nginx, which also
+# reverse-proxies /api and /socket.io to the backend so the browser only
+# ever talks to one origin.
+#
+# Usage:
+#   cp backend/.env.example backend/.env      # fill in real secrets
+#   cp .env.example .env                      # compose-level knobs (ports, mongo creds)
+#   docker compose -f docker-compose.prod.yml up --build -d
+#
+#   App: http://localhost:${FRONTEND_PORT:-8080}
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: task-manager-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-}
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      target: production
+    image: task-manager-backend:latest
+    container_name: task-manager-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/task_manager}
+    volumes:
+      - backend-logs:/app/logs
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api/v1}
+        VITE_SOCKET_URL: ${VITE_SOCKET_URL:-/}
+    image: task-manager-frontend:latest
+    container_name: task-manager-frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
+  backend-logs:

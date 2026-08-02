@@ -1,0 +1,26 @@
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Dependencies
+node_modules/
+
+# Build output
+frontend/dist/
+frontend/dist-ssr/
+
+# Env files — secrets live here, never commit them
+.env
+.env.local
+*.local
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
