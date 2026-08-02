@@ -32,7 +32,7 @@ docker compose version # sanity check — ships with Docker as a plugin
 ## 3. Get the code and configure secrets
 
 ```bash
-git clone <your-repo-url> task-manager
+git clone https://github.com/Shivanshrana1446/Task_manager_tool.git task-manager
 cd task-manager
 
 cp backend/.env.example backend/.env
