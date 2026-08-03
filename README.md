@@ -337,10 +337,7 @@ Health check: `GET /health` (unprefixed, no auth).
 
 The [Docker](#docker) production compose file is the recommended path — it
 builds both images, wires up nginx, and needs nothing else installed on the
-host. Deploying to your own VPS? See
-[`docs/VPS_DEPLOYMENT.md`](docs/VPS_DEPLOYMENT.md) for the full runbook —
-provisioning, TLS, firewall, updates, and backups. A few things to get right
-regardless of how you deploy:
+host. A few things to get right regardless of how you deploy:
 
 - **Secrets**: generate fresh, long `JWT_SECRET`/`JWT_REFRESH_SECRET` values —
   never reuse the ones from `.env.example`. Set real Cloudinary credentials.
@@ -418,20 +415,7 @@ modules never clash with the container's Linux-built ones.
 
 ## Screenshots
 
-Not committed yet — see [`docs/screenshots/`](docs/screenshots/README.md) for
-the exact list of pages to capture and the naming convention. Once the PNGs
-land there, they'll show up here:
-
-| | |
-| --- | --- |
-| Login | `docs/screenshots/login.png` |
-| Dashboard | `docs/screenshots/dashboard.png` |
-| Projects | `docs/screenshots/projects.png` |
-| Kanban board | `docs/screenshots/kanban-board.png` |
-| Task detail | `docs/screenshots/task-detail.png` |
-| Notifications | `docs/screenshots/notifications.png` |
-| Admin analytics | `docs/screenshots/admin-analytics.png` |
-| Admin users | `docs/screenshots/admin-users.png` |
+Not committed yet.
 
 ## Testing & quality
 
