@@ -335,9 +335,13 @@ Health check: `GET /health` (unprefixed, no auth).
 
 ## Deployment
 
-The [Docker](#docker) production compose file is the recommended path — it
-builds both images, wires up nginx, and needs nothing else installed on the
-host. A few things to get right regardless of how you deploy:
+The [Docker](#docker) production compose file is the simplest path if you
+have a server to run it on — it builds both images, wires up nginx, and
+needs nothing else installed on the host. If you'd rather use managed
+platforms instead, see
+[`DEPLOY_RENDER_VERCEL.md`](DEPLOY_RENDER_VERCEL.md) for deploying the
+backend on Render, the frontend on Vercel, and the database on MongoDB
+Atlas. A few things to get right regardless of how you deploy:
 
 - **Secrets**: generate fresh, long `JWT_SECRET`/`JWT_REFRESH_SECRET` values —
   never reuse the ones from `.env.example`. Set real Cloudinary credentials.
