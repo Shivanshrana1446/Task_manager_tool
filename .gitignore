@@ -3,6 +3,7 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea
+.claude/
 
 # Dependencies
 node_modules/
