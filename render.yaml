@@ -14,7 +14,7 @@ services:
         value: /api/v1
       # Set the rest (CLIENT_URL, MONGODB_URI, JWT_SECRET, JWT_REFRESH_SECRET,
       # CLOUDINARY_*) in the Render dashboard — they're secrets/deployment-specific
-      # and deliberately not in this file. See docs/RENDER_VERCEL_DEPLOYMENT.md.
+      # and deliberately not in this file. See DEPLOY_RENDER_VERCEL.md.
       - key: JWT_EXPIRES_IN
         value: 15m
       - key: JWT_REFRESH_EXPIRES_IN
