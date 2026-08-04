@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MoreVertical, Pencil, UserCog, Users, Archive, ArchiveRestore, Trash2, Clock } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import PriorityBadge from './PriorityBadge';
@@ -12,6 +12,7 @@ import { formatDueLabel } from '../../utils/formatters';
 const MAX_VISIBLE_MEMBERS = 4;
 
 const ProjectCard = ({ project, onEdit, onDelete, onArchiveToggle, onAssignManager, onAssignMembers }) => {
+  const navigate = useNavigate();
   const isArchived = project.status === 'archived';
   const isOverdue =
     project.dueDate && new Date(project.dueDate) < new Date() && !['completed', 'archived'].includes(project.status);
@@ -56,7 +57,8 @@ const ProjectCard = ({ project, onEdit, onDelete, onArchiveToggle, onAssignManag
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.25 }}
-      className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5 shadow-sm"
+      onClick={() => navigate(`/projects/${project._id}`)}
+      className="flex cursor-pointer flex-col gap-4 rounded-2xl border border-border bg-surface p-5 shadow-sm transition-shadow hover:shadow-md"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
@@ -69,14 +71,16 @@ const ProjectCard = ({ project, onEdit, onDelete, onArchiveToggle, onAssignManag
             <p className="mt-1 line-clamp-2 text-sm text-foreground/50">{project.description}</p>
           )}
         </div>
-        <DropdownMenu
-          trigger={
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground/40 transition-colors hover:bg-primary-50 hover:text-foreground dark:hover:bg-primary-950">
-              <MoreVertical size={18} />
-            </span>
-          }
-          items={menuItems}
-        />
+        <div onClick={(event) => event.stopPropagation()}>
+          <DropdownMenu
+            trigger={
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg text-foreground/40 transition-colors hover:bg-primary-50 hover:text-foreground dark:hover:bg-primary-950">
+                <MoreVertical size={18} />
+              </span>
+            }
+            items={menuItems}
+          />
+        </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
