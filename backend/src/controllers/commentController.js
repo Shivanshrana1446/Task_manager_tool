@@ -17,7 +17,9 @@ const createComment = asyncHandler(async (req, res) => {
     after: comment.toObject(),
   });
 
-  const watchers = [task.reporter, ...task.assignees];
+  // The project owner watches every task's activity, not just ones they
+  // report/are assigned to — notifyMany dedupes automatically.
+  const watchers = [task.reporter, ...task.assignees, task.project.owner];
   await notifyMany(watchers, {
     sender: req.user.id,
     type: NOTIFICATION_TYPES.COMMENT_ADDED,

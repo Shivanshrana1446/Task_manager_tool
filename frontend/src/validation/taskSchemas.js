@@ -1,9 +1,8 @@
 import { z } from 'zod';
 
 export const TASK_STATUSES = ['todo', 'in_progress', 'in_review', 'testing', 'done', 'cancelled'];
-// Statuses rendered as Kanban columns, in display order. `cancelled` stays a
-// valid status (reachable via the table/filters) but doesn't get its own column.
-export const KANBAN_STATUSES = ['todo', 'in_progress', 'in_review', 'testing', 'done'];
+// Statuses rendered as Kanban columns, in display order.
+export const KANBAN_STATUSES = ['todo', 'in_progress', 'in_review', 'testing', 'done', 'cancelled'];
 export const TASK_PRIORITIES = ['low', 'medium', 'high', 'critical'];
 
 export const taskFormSchema = z

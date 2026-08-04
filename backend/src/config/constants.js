@@ -15,16 +15,6 @@ const TASK_STATUS = {
   CANCELLED: 'cancelled',
 };
 
-// Statuses shown as Kanban board columns, in display order. `cancelled` is a
-// valid status (reachable via the table/filters) but doesn't get its own column.
-const KANBAN_STATUSES = [
-  TASK_STATUS.TODO,
-  TASK_STATUS.IN_PROGRESS,
-  TASK_STATUS.IN_REVIEW,
-  TASK_STATUS.TESTING,
-  TASK_STATUS.DONE,
-];
-
 const PRIORITY = {
   LOW: 'low',
   MEDIUM: 'medium',
@@ -98,7 +88,6 @@ module.exports = {
   PROJECT_STATUS_VALUES: values(PROJECT_STATUS),
   TASK_STATUS,
   TASK_STATUS_VALUES: values(TASK_STATUS),
-  KANBAN_STATUSES,
   PRIORITY,
   PRIORITY_VALUES: values(PRIORITY),
   ENTITY_TYPES,

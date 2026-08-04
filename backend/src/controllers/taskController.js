@@ -58,7 +58,10 @@ const updateTask = asyncHandler(async (req, res) => {
   });
 
   if (statusChanged) {
-    const recipients = [task.reporter, ...task.assignees];
+    // The project owner sees progress even on tasks they didn't create or
+    // aren't assigned to — notifyMany dedupes, so no double-notify if they
+    // happen to also be the reporter/an assignee.
+    const recipients = [task.reporter, ...task.assignees, task.project.owner];
     await notifyMany(recipients, {
       sender: req.user.id,
       type:
