@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 const ROLE_STYLES = {
   Owner: 'bg-primary-500/10 text-primary-600 dark:text-primary-400',
-  Manager: 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
+  'Project Manager': 'bg-violet-500/10 text-violet-600 dark:text-violet-400',
   Member: 'bg-surface text-foreground/60 ring-1 ring-border',
 };
 
@@ -16,7 +16,7 @@ export const getMyProjectRole = (project, currentUser) => {
   const isMember = project.members?.some((member) => member._id === currentUser._id);
   if (!isMember) return null;
 
-  return currentUser.role === 'project_manager' ? 'Manager' : 'Member';
+  return currentUser.role === 'project_manager' ? 'Project Manager' : 'Member';
 };
 
 const MyRoleBadge = ({ project, className = '' }) => {
