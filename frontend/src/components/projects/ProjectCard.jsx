@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MoreVertical, Pencil, UserCog, Users, Archive, ArchiveRestore, Trash2, Clock } from 'lucide-react';
 import StatusBadge from './StatusBadge';
 import PriorityBadge from './PriorityBadge';
+import MyRoleBadge from './MyRoleBadge';
 import ProjectTimeline from './ProjectTimeline';
 import ProjectProgressBar from './ProjectProgressBar';
 import Avatar from '../ui/Avatar';
@@ -94,6 +95,7 @@ const ProjectCard = ({ project, onEdit, onDelete, onArchiveToggle, onAssignManag
             {formatDueLabel(project.dueDate)}
           </span>
         )}
+        <MyRoleBadge project={project} className="ml-auto" />
       </div>
 
       <ProjectProgressBar
