@@ -12,11 +12,13 @@ export const uploadAttachment = (taskId, file, onUploadProgress) => {
 
   return axiosInstance
     .post('/attachments', formData, {
-      // No explicit Content-Type here — axios must compute its own boundary
-      // for the multipart body it's about to encode. Setting a bare
-      // "multipart/form-data" (no boundary) makes the server's multipart
-      // parser unable to correctly split the body, silently corrupting
-      // binary file content while simple text fields still come through.
+      // axiosInstance sets a default Content-Type: application/json on every
+      // request. That default wins over axios's own FormData auto-detection
+      // unless we explicitly clear it here — leaving it in place makes the
+      // server treat this as a JSON body with no file at all ("A file is
+      // required"). Setting it to undefined removes the inherited default so
+      // the browser can set the correct multipart Content-Type + boundary.
+      headers: { 'Content-Type': undefined },
       onUploadProgress,
     })
     .then((res) => res.data.data.attachment);
