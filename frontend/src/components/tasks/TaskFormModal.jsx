@@ -10,6 +10,7 @@ import UserPicker from '../ui/UserPicker';
 import TagInput from '../ui/TagInput';
 import RichTextEditor, { isRichTextEmpty } from '../ui/RichTextEditor';
 import ChecklistEditor from './ChecklistEditor';
+import AttachmentManager from './AttachmentManager';
 import { taskFormSchema, TASK_STATUSES, TASK_PRIORITIES } from '../../validation/taskSchemas';
 import { TASK_STATUS_LABELS, PRIORITY_LABELS } from '../../utils/chartTheme';
 import { useCreateTask, useUpdateTask } from '../../hooks/useTasks';
@@ -162,6 +163,17 @@ const TaskFormModal = ({ isOpen, onClose, task, projectId, projectMembers = [], 
         />
 
         <ChecklistEditor items={checklist} onChange={setChecklist} />
+
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-foreground">Attachments</label>
+          {isEditMode ? (
+            <AttachmentManager taskId={task._id} />
+          ) : (
+            <p className="rounded-xl border-2 border-dashed border-border p-6 text-center text-sm text-foreground/40">
+              Create the task first, then open it to attach files.
+            </p>
+          )}
+        </div>
 
         <div className="flex justify-end gap-3 pt-2">
           <Button type="button" variant="secondary" className="w-auto px-4" onClick={onClose}>
