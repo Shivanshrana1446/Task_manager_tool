@@ -1,4 +1,5 @@
 const request = require('supertest');
+const { uploadBuffer } = require('../services/cloudinaryService');
 
 jest.mock('../services/cloudinaryService', () => ({
   uploadBuffer: jest.fn().mockResolvedValue({
@@ -44,6 +45,32 @@ describe('Attachment APIs', () => {
 
     expect(res.statusCode).toBe(201);
     expect(res.body.data.attachment.url).toBe('https://cdn.example.com/files/report.pdf');
+    // PDFs must upload as "raw" — Cloudinary's "auto" detection files them
+    // under "image" instead, which breaks opening/downloading them as a PDF.
+    expect(uploadBuffer).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ resourceType: 'raw' })
+    );
+  });
+
+  it('uploads an image with resourceType "image"', async () => {
+    const { accessToken } = await createUser({ email: 'owner6@example.com' });
+    const { task } = await setupProjectAndTask(accessToken);
+
+    const res = await request(app)
+      .post('/api/v1/attachments')
+      .set(authHeader(accessToken))
+      .field('task', task._id)
+      .attach('file', Buffer.from('fake-png-bytes'), {
+        filename: 'photo.png',
+        contentType: 'image/png',
+      });
+
+    expect(res.statusCode).toBe(201);
+    expect(uploadBuffer).toHaveBeenLastCalledWith(
+      expect.anything(),
+      expect.objectContaining({ resourceType: 'image' })
+    );
   });
 
   it('rejects an upload with no parent reference', async () => {
