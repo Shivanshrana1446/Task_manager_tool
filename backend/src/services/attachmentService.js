@@ -1,3 +1,4 @@
+const path = require('path');
 const Attachment = require('../models/Attachment');
 const { paginateQuery, pickFilter } = require('../utils/queryHelper');
 const { uploadBuffer } = require('./cloudinaryService');
@@ -9,10 +10,27 @@ const { uploadBuffer } = require('./cloudinaryService');
 const resourceTypeForMimeType = (mimeType) =>
   mimeType?.startsWith('image/') ? 'image' : 'raw';
 
+// Raw (non-image) Cloudinary assets have no separate "format" concept the
+// way images do — the delivery URL only ends in the right extension, and
+// Cloudinary only sets the correct Content-Type on download, if that
+// extension is baked into the public_id itself. Without this, a PDF still
+// uploads fine but comes back as an extensionless URL that browsers can't
+// recognize as a PDF.
+const buildPublicId = (originalName) => {
+  const ext = path.extname(originalName);
+  const base = path
+    .basename(originalName, ext)
+    .replace(/[^a-zA-Z0-9_-]/g, '_')
+    .slice(0, 60);
+  const unique = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+  return `${base}-${unique}${ext}`;
+};
+
 const createAttachment = async (uploaderId, file, refs) => {
   const result = await uploadBuffer(file.buffer, {
     folder: 'task-manager/attachments',
     resourceType: resourceTypeForMimeType(file.mimetype),
+    publicId: buildPublicId(file.originalname),
   });
 
   return Attachment.create({
