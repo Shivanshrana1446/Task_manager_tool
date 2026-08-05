@@ -86,6 +86,12 @@ vi.mock('../services/commentsApi', () => ({
   deleteComment: vi.fn(),
 }));
 
+vi.mock('../services/attachmentsApi', () => ({
+  listAttachments: vi.fn().mockResolvedValue([]),
+  uploadAttachment: vi.fn(),
+  deleteAttachment: vi.fn(),
+}));
+
 import ProjectDetail from '../pages/ProjectDetail';
 
 const buildStore = () =>

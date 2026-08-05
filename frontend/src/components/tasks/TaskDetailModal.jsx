@@ -8,6 +8,7 @@ import Avatar from '../ui/Avatar';
 import TaskFormModal from './TaskFormModal';
 import SubtaskList from './SubtaskList';
 import ChecklistList from './ChecklistList';
+import AttachmentManager from './AttachmentManager';
 import ActivityTimeline from './ActivityTimeline';
 import RichTextEditor, { isRichTextEmpty } from '../ui/RichTextEditor';
 import { TASK_STATUSES, TASK_PRIORITIES } from '../../validation/taskSchemas';
@@ -65,6 +66,11 @@ const TaskDetailModal = ({ isOpen, onClose, task, projectMembers }) => {
             <div>
               <h3 className="mb-2 text-sm font-semibold text-foreground">Subtasks</h3>
               <SubtaskList parentTask={task} />
+            </div>
+
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-foreground">Attachments</h3>
+              <AttachmentManager taskId={task._id} />
             </div>
 
             <div>
