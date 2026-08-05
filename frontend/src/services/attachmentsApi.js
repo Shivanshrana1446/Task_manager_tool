@@ -12,7 +12,11 @@ export const uploadAttachment = (taskId, file, onUploadProgress) => {
 
   return axiosInstance
     .post('/attachments', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      // No explicit Content-Type here — axios must compute its own boundary
+      // for the multipart body it's about to encode. Setting a bare
+      // "multipart/form-data" (no boundary) makes the server's multipart
+      // parser unable to correctly split the body, silently corrupting
+      // binary file content while simple text fields still come through.
       onUploadProgress,
     })
     .then((res) => res.data.data.attachment);
