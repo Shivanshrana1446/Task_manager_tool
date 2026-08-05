@@ -3,14 +3,14 @@
  * Swagger/OpenAPI spec (src/docs/swagger.js), so the two never drift apart.
  *
  * Usage: node scripts/generate-postman.js
- * Output: docs/postman/TaskManager.postman_collection.json
- *         docs/postman/TaskManager.postman_environment.json
+ * Output: ../docs/postman/TaskManager.postman_collection.json (repo-root docs/)
+ *         ../docs/postman/TaskManager.postman_environment.json
  */
 const fs = require('fs');
 const path = require('path');
 const spec = require('../src/docs/swagger.js');
 
-const OUT_DIR = path.join(__dirname, '..', 'docs', 'postman');
+const OUT_DIR = path.join(__dirname, '..', '..', 'docs', 'postman');
 
 // ---- Resolve every $ref against the spec so examples/schemas are inlined ----
 const resolveRef = (ref) => {

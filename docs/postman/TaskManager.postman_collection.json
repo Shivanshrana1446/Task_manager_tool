@@ -5199,6 +5199,326 @@
           ]
         },
         {
+          "name": "Bulk-update the status of multiple tasks",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tasks/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tasks",
+                "bulk"
+              ]
+            },
+            "description": "Applies only to tasks the caller has write access to (assignee, reporter, project owner, or admin) — the rest are silently skipped and reflected in `skippedCount` rather than failing the whole request.\n",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ids\": [\n    \"65f2b3c4d5e6f7a8b9c0d1e2\",\n    \"65f2b3c4d5e6f7a8b9c0d1e3\"\n  ],\n  \"status\": \"in_review\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "200 — Bulk update summary",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tasks/bulk",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "bulk"
+                  ]
+                },
+                "description": "Applies only to tasks the caller has write access to (assignee, reporter, project owner, or admin) — the rest are silently skipped and reflected in `skippedCount` rather than failing the whole request.\n",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"65f2b3c4d5e6f7a8b9c0d1e2\",\n    \"65f2b3c4d5e6f7a8b9c0d1e3\"\n  ],\n  \"status\": \"in_review\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": ""
+            },
+            {
+              "name": "401 — Missing, invalid, or expired access token",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tasks/bulk",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "bulk"
+                  ]
+                },
+                "description": "Applies only to tasks the caller has write access to (assignee, reporter, project owner, or admin) — the rest are silently skipped and reflected in `skippedCount` rather than failing the whole request.\n",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"65f2b3c4d5e6f7a8b9c0d1e2\",\n    \"65f2b3c4d5e6f7a8b9c0d1e3\"\n  ],\n  \"status\": \"in_review\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Authentication required\",\n  \"errors\": []\n}"
+            },
+            {
+              "name": "422 — Request body/query failed validation",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tasks/bulk",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "bulk"
+                  ]
+                },
+                "description": "Applies only to tasks the caller has write access to (assignee, reporter, project owner, or admin) — the rest are silently skipped and reflected in `skippedCount` rather than failing the whole request.\n",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ids\": [\n    \"65f2b3c4d5e6f7a8b9c0d1e2\",\n    \"65f2b3c4d5e6f7a8b9c0d1e3\"\n  ],\n  \"status\": \"in_review\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    {\n      \"field\": \"email\",\n      \"message\": \"A valid email is required\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Bulk soft-delete multiple tasks",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/tasks/bulk",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tasks",
+                "bulk"
+              ]
+            },
+            "description": "Applies only to tasks the caller can manage (project owner or admin) — the rest are silently skipped and reflected in `skippedCount`.\n",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "name": "200 — Bulk delete summary",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tasks/bulk",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "bulk"
+                  ]
+                },
+                "description": "Applies only to tasks the caller can manage (project owner or admin) — the rest are silently skipped and reflected in `skippedCount`.\n",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": ""
+            },
+            {
+              "name": "401 — Missing, invalid, or expired access token",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tasks/bulk",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "bulk"
+                  ]
+                },
+                "description": "Applies only to tasks the caller can manage (project owner or admin) — the rest are silently skipped and reflected in `skippedCount`.\n",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Authentication required\",\n  \"errors\": []\n}"
+            },
+            {
+              "name": "422 — Request body/query failed validation",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/tasks/bulk",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "tasks",
+                    "bulk"
+                  ]
+                },
+                "description": "Applies only to tasks the caller can manage (project owner or admin) — the rest are silently skipped and reflected in `skippedCount`.\n",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    {\n      \"field\": \"email\",\n      \"message\": \"A valid email is required\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
           "name": "Get a task by ID",
           "request": {
             "method": "GET",

@@ -65,7 +65,8 @@ npm run docs:postman
 ```
 
 If you touched a Mongoose model's fields or relationships, update
-`backend/src/docs/ER_DIAGRAM.md` to match.
+`docs/ER_DIAGRAM.md` (and `docs/DATABASE_SCHEMA.md` if it's a new collection
+or relationship) to match.
 
 ## Pull request checklist
 

@@ -186,11 +186,10 @@ task-manager/
 │   │   ├── validators/       # express-validator chains
 │   │   ├── utils/            # ApiError, ApiResponse, asyncHandler, JWT, ...
 │   │   ├── socket/           # Socket.IO server (JWT handshake, per-user rooms)
-│   │   ├── docs/             # swagger.js (OpenAPI spec), ER_DIAGRAM.md
+│   │   ├── docs/             # swagger.js — OpenAPI spec (runtime code, stays here)
 │   │   ├── tests/            # Jest + Supertest suites
 │   │   ├── app.js            # Express app (middleware + route mounting)
 │   │   └── server.js         # HTTP server + Socket.IO bootstrap
-│   ├── docs/                 # API_EXAMPLES.md, generated Postman collection
 │   ├── scripts/               # generate-postman.js
 │   ├── Dockerfile
 │   └── package.json
@@ -210,6 +209,11 @@ task-manager/
 │   ├── Dockerfile
 │   ├── nginx.conf             # production reverse proxy config
 │   └── package.json
+├── docs/
+│   ├── DATABASE_SCHEMA.md      # collection-by-collection summary
+│   ├── ER_DIAGRAM.md           # full field list, relationships, indexes
+│   ├── API_DOCUMENTATION.md    # curl walkthroughs, error catalog, auth flow
+│   └── postman/                # generated Postman collection + environment
 ├── docker-compose.yml          # development stack
 ├── docker-compose.prod.yml     # production stack
 ├── .env.example                 # Compose-level vars (production only)
@@ -267,7 +271,8 @@ identical to a normal refetch to the rest of the app.
 ## Database schema
 
 MongoDB via Mongoose, 8 collections. Every collection uses the shared
-`softDeletePlugin` (`isDeleted`/`deletedAt` + query-level filtering) — see
+`softDeletePlugin` (`isDeleted`/`deletedAt` + query-level filtering). Full
+version lives in [`docs/DATABASE_SCHEMA.md`](docs/DATABASE_SCHEMA.md); see
 [ER diagram](#er-diagram) for the full field list and indexing strategy.
 
 | Model | Purpose | Key relationships |
@@ -285,7 +290,7 @@ MongoDB via Mongoose, 8 collections. Every collection uses the shared
 
 Full version (with every field, plus the indexing strategy and soft-delete
 mechanics) lives in
-[`backend/src/docs/ER_DIAGRAM.md`](backend/src/docs/ER_DIAGRAM.md). Summary:
+[`docs/ER_DIAGRAM.md`](docs/ER_DIAGRAM.md). Summary:
 
 ```mermaid
 erDiagram
@@ -316,8 +321,8 @@ Three complementary layers, all generated from the same JSDoc annotations in
 1. **Swagger UI** — interactive, try-it-out docs at `http://localhost:5000/api-docs`
    once the backend is running. Every endpoint, request/response schema, and
    error case (401/403/404/409/422) is documented with real examples.
-2. **Postman collection** — `backend/docs/postman/TaskManager.postman_collection.json`
-   (+ a matching `.postman_environment.json`). 60 requests across 10 folders,
+2. **Postman collection** — [`docs/postman/TaskManager.postman_collection.json`](docs/postman/TaskManager.postman_collection.json)
+   (+ a matching `.postman_environment.json`). 62 requests across 10 folders,
    with example bodies, saved example responses, and a test script on
    Login/Register that auto-captures the access token into a collection
    variable so every other request just works after one login. Regenerate it
@@ -327,9 +332,9 @@ Three complementary layers, all generated from the same JSDoc annotations in
    cd backend && npm run docs:postman
    ```
 
-3. **`backend/docs/API_EXAMPLES.md`** — copy-pasteable curl walkthroughs of the
-   full auth flow, a catalog of every error shape the API returns, and a
-   representative example per resource.
+3. **[`docs/API_DOCUMENTATION.md`](docs/API_DOCUMENTATION.md)** — copy-pasteable
+   curl walkthroughs of the full auth flow, a catalog of every error shape the
+   API returns, and a representative example per resource.
 
 Health check: `GET /health` (unprefixed, no auth).
 
